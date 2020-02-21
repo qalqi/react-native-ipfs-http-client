@@ -22,6 +22,7 @@ buildscript {
 
 allprojects {
     repositories {
+        maven { url "${rootDir.getPath()}/../node_modules/react-native-go-ipfs/android/local_repo" }
         mavenLocal()
         google()
         jcenter()

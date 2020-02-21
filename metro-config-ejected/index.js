@@ -6,7 +6,7 @@
 // Note that imports get hoisted above requires
 
 import "node-libs-react-native/globals";
-
+import './globals';
 import { AppRegistry, Platform } from "react-native";
 import App from "./App";
 
