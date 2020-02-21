@@ -3,6 +3,7 @@ package com.reactnativeipfsnodeify;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.peel.react.rnos.RNOSModule;
 import com.RNFetchBlob.RNFetchBlobPackage;
 import com.swmansion.rnscreens.RNScreensPackage;
 import com.swmansion.reanimated.ReanimatedPackage;
@@ -42,6 +43,7 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new RNOSModule(),
             new RNFetchBlobPackage(),
           new RandomBytesPackage(),
           new ReanimatedPackage(),

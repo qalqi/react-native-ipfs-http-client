@@ -1,31 +1,73 @@
-import { URL, URLSearchParams } from "whatwg-url";
+var URL2 = require('url-parse');
+const fetch2 = require('node-fetch');
+import { Headers, Response, Request } from 'node-fetch'
 
-console.log({ URL });
+const URLSearchParams = require('@ungap/url-search-params')
 
-global.URL = URL;
+global.URL = URL2;
+console.log(URLSearchParams, 'URLSearchParams')
 global.URLSearchParams = URLSearchParams;
+
+import Promise from 'bluebird';
+var request = require('browser-request')
+
+fetch2.promise = Promise
+
+
+global.Request = Request;
+global.Response = Response;
+global.Headers = Headers
+//global.fetch = fetch2;
+console.log(fetch2, 'fetch2')
+
+// To see all the requests in the chrome Dev tools in the network tab.
+XMLHttpRequest = GLOBAL.originalXMLHttpRequest ?
+  GLOBAL.originalXMLHttpRequest :
+  GLOBAL.XMLHttpRequest;
+
+// fetch logger
+global._fetch = fetch;
+/* global.fetch = function (uri, options, ...args) {
+
+
+  console.log('fetching..', uri, options, ...args);
+  return fetch2(uri, options, ...args).then((response) => {
+    console.log('Fetch 2', { request: { uri, options, ...args }, response });
+    console.log('uri', uri);
+
+    console.log('Fetch  response', { response });
+
+    return response;
+  }).catch(console.log);
+}; */
 
 // ---
 // TOGGLE THIS CODE BLOCK ON AND OFF TO USE RN-FETCH-BLOB OR NOT
 // ---
-// import RNFetchBlob from "rn-fetch-blob";
-// const Fetch = RNFetchBlob.polyfill.Fetch;
+/* import RNFetchBlob from "rn-fetch-blob";
+const Fetch = RNFetchBlob.polyfill.Fetch;
 
 // // replace built-in fetch
 // // window.fetch = new Fetch({
-// global.fetch = new Fetch({
-//   // enable this option so that the response data conversion handled
-//   // automatically
-//   auto: true, // TODO: Decide if auto conversion is the best option here
-//   // when receiving response data, the module will match its Content-Type header
-//   // with strings in this array. If it contains any one of string in this array,
-//   // the response body will be considered as binary data and the data will be
-//   // stored in file system instead of in memory.
-//   // By default, it only store response data to file system when Content-Type
-//   // contains string `application/octet`.
-//   binaryContentTypes: ["image/", "video/", "audio/"]
-//   // fileCache: true // TODO: Decide if this approach to storing files is the best
-// }).build();
+global.fetch = new Fetch({
+  //   // enable this option so that the response data conversion handled
+  //   // automatically
+  auto: true, // TODO: Decide if auto conversion is the best option here
+  //   // when receiving response data, the module will match its Content-Type header
+  //   // with strings in this array. If it contains any one of string in this array,
+  //   // the response body will be considered as binary data and the data will be
+  //   // stored in file system instead of in memory.
+  //   // By default, it only store response data to file system when Content-Type
+  //   // contains string `application/octet`.
+  binaryContentTypes: ["image/", "video/", "audio/"],
+  fileCache: true // TODO: Decide if this approach to storing files is the best
+}).build();
+
+global.Headers = global.fetch.Headers;
+
+console.log(global.Headers)
+console.log(global.Headers, fetch.Headers, fetch); */
+
 // ---
 // END OF CODE BLOCK TO TOGGLE
 // ---
@@ -57,12 +99,12 @@ global.URLSearchParams = URLSearchParams;
 // import "@stardazed/streams-polyfill";
 // ***
 
-global.Symbol = require("core-js/es6/symbol");
+//global.Symbol = require("core-js/es6/symbol");
 
 // import symbol from "core-js/es6/symbol";
 // global.Symbol = symbol;
-require("core-js/fn/symbol/iterator");
-require("core-js/fn/symbol/async-iterator");
+//require("core-js/fn/symbol/iterator");
+//require("core-js/fn/symbol/async-iterator");
 // import "regenerator-runtime/runtime";
 
 // global.Symbol = require("core-js/es6/symbol");
@@ -135,7 +177,7 @@ const atob = (input = "") => {
 };
 
 // Hugo's version
-FileReader.prototype.readAsArrayBuffer = function(blob) {
+FileReader.prototype.readAsArrayBuffer = function (blob) {
   if (this.readyState === this.LOADING) {
     throw new Error("InvalidStateError");
   }
@@ -196,14 +238,14 @@ FileReader.prototype.readAsArrayBuffer = function(blob) {
 
 /// ---
 // // Latest:
-// import symbol from "core-js/es6/symbol";
-// import iterator from "core-js/fn/symbol/iterator";
-// import asyncIterator from "core-js/fn/symbol/async-iterator";
+import symbol from "core-js/es6/symbol";
+import iterator from "core-js/fn/symbol/iterator";
+import asyncIterator from "core-js/fn/symbol/async-iterator";
 
-// // // console.log("symbol", symbol);
+console.log("symbol", symbol);
 
-// global.Symbol = symbol;
-// // global.Symbol.iterator = iterator;
+global.Symbol = symbol;
+// global.Symbol.iterator = iterator;
 // global.Symbol.iterator = Symbol("Symbol.iterator");
 // global.Symbol.asyncIterator = Symbol("Symbol.asyncIterator");
 
@@ -220,7 +262,7 @@ var log = Math.log;
 var LN2 = Math.LN2;
 var clz32 =
   Math.clz32 ||
-  function(x) {
+  function (x) {
     return (31 - log(x >>> 0) / LN2) | 0;
   };
 var fromCharCode = String.fromCharCode;
@@ -260,8 +302,8 @@ function decoderReplacer(encoded) {
   for (; endPos < stringLen; endPos = (endPos + 1) | 0) result += "\ufffd"; // replacement character
   return result;
 }
-function TextDecoder() {}
-TextDecoder["prototype"]["decode"] = function(inputArrayOrBuffer) {
+function TextDecoder() { }
+TextDecoder["prototype"]["decode"] = function (inputArrayOrBuffer) {
   console.log({ inputArrayOrBuffer });
   var buffer =
     (inputArrayOrBuffer && inputArrayOrBuffer.buffer) || inputArrayOrBuffer;
@@ -533,7 +575,7 @@ if (typeof process === "undefined") {
   }
 }
 
-process.browser = false;
+process.browser = true;
 if (typeof Buffer === "undefined") global.Buffer = require("buffer").Buffer;
 
 // global.location = global.location || { port: 80 }
@@ -546,3 +588,19 @@ if (typeof localStorage !== "undefined") {
 // If using the crypto shim, uncomment the following line to ensure
 // crypto is loaded first, so it can populate global.crypto
 require("crypto");
+
+
+
+// We use the "Bluebird" lib for Promises, because it shows good perf
+// and it implements the "unhandledrejection" event:
+global.Promise = Promise;
+
+// Global catch of unhandled Promise rejections:
+global.onunhandledrejection = function onunhandledrejection(error) {
+  // Warning: when running in "remote debug" mode (JS environment is Chrome browser),
+  // this handler is called a second time by Bluebird with a custom "dom-event".
+  // We need to filter this case out:
+  if (error instanceof Error) {
+    console.log(error);  // Your custom error logging/reporting code
+  }
+};

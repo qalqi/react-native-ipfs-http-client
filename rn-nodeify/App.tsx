@@ -17,13 +17,15 @@ import ipfsClient from "ipfs-http-client";
 
 // When not using the async iterators Babel plugin, you need to get the
 // dist version of the file
-// const ipfsClient = require("ipfs-http-client/dist/index.js");
+ //const ipfsClient = require("ipfs-http-client/dist/index.js");
 
-// console.log(ipfsClient())
+ //console.log(ipfsClient())
 
 // For testing ky calls directly rather
 // than via js-ipfs-http-client:
-// const kyDefault = require("ky-universal").default;
+const kyDefault = require("ky-universal").default;
+const OrbitDB = require('orbit-db')
+
 
 // Imports internal to ipfs
 // const FormData = require('form-data')
@@ -32,13 +34,9 @@ import ipfsClient from "ipfs-http-client";
 // const normaliseInput = require('ipfs-utils/src/files/normalise-input')
 // const ndjson = require('iterable-ndjson')
 // const configure = require('../lib/configure')
-// const { toFormData } = require('./form-data')
+//const FormData = require('form-data');
 
-const ipfs = ipfsClient({
-  host: "localhost",
-  port: "5001",
-  protocol: "http"
-});
+const ipfs = ipfsClient( "127.0.0.1","5002" );
 // const ipfs = ipfsClient({
 //   host: "ipfs.infura.io",
 //   port: "5001",
@@ -53,16 +51,24 @@ const ipfs = ipfsClient({
 export default function App() {
   // console.log({ ipfs });
   const dagPut = async () => {
-    console.log("Blob", Blob);
+ /*    console.log("Blob", Blob);
     console.log("FormData", FormData);
     // console.log("globals.Request", globals.Request)
     const hash = await ipfs.id();
-    console.log("HASH", hash);
+    console.log("HASH", hash); */
+
+    //const orbitdb = await OrbitDB.createInstance(ipfs)
+
+/* 
+    const obj = { simple: 'object' }
+    const cid = await ipfs.dag.put(obj, { format: 'dag-cbor', hashAlg: 'sha3-512' })
+     console.log("cid", cid); */
+    /*     console.log("HASH", hash);
     console.log("Symbol", Symbol);
     console.log("Symbol.iterator", Symbol.iterator);
     console.log("Getting updates");
     console.log("window.Request", window.Request);
-    console.log("global.Request", global.Request);
+    console.log("global.Request", global.Request); */
 
     // Note: Something is up with the JSON parsing when using dag.put rather
     // than add
@@ -99,11 +105,11 @@ export default function App() {
       // console.log("TCL: test -> int", int);
       //
       // Now that add returns an async iterable:
-      const int = await ipfs.add(Buffer.from("hello native"));
+/*       const int = await ipfs.add(Buffer.from("hello native"));
       for await (let chunk of int) {
         // console.log({ chunk });
         console.log("chunk", chunk);
-      }
+      } */
       //
       // console.log("About to make ky request");
       // (async () => {
@@ -151,7 +157,6 @@ export default function App() {
       // console.log(results);
       //
     } catch (error) {
-      console.log("error.stack", error.stack);
       console.log("error", error);
     }
   };
