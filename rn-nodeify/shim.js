@@ -1,25 +1,23 @@
-var URL2 = require('url-parse');
-const whatwg_fetch = require('whatwg-fetch').fetch;
+import Promise from 'bluebird';
 import { Headers, Response, Request } from 'node-fetch'
 
+const URL_Parse = require('url-parse');
+const whatwg_fetch = require('whatwg-fetch').fetch;
 const URLSearchParams = require('@ungap/url-search-params')
+import setGlobalVars from 'indexeddbshim';
 
-global.URL = URL2;
-console.log(URLSearchParams, 'URLSearchParams')
+
+
+
+
+global.URL = URL_Parse;
 global.URLSearchParams = URLSearchParams;
-
-import Promise from 'bluebird';
-var request = require('browser-request')
-const fetch_readablestream = require("fetch-readablestream");
-
-
-whatwg_fetch.promise = Promise
-
-
 global.Request = Request;
 global.Response = Response;
 global.Headers = Headers
-//global.fetch = whatwg_fetch;
+
+whatwg_fetch.promise = Promise
+
 console.log(whatwg_fetch, 'whatwg_fetch')
 
 // To see all the requests in the chrome Dev tools in the network tab.
@@ -35,13 +33,11 @@ global.fetch = (uri, options, ...args) => {
 
   console.log('fetching..', uri, options, ...args);
   return whatwg_fetch(uri, options, ...args).then((response) => {
-    console.log('Fetch 2', { request: { uri, options, ...args }, response });
-    console.log('uri', uri);
-
-    console.log('Fetch  response', { response });
+    console.log('fetched: ', { request: { uri, options, ...args }, response });
+    console.log('fetched  response:', { response });
 
     return response;
-  }).catch(console.log);
+  }).catch((e) => { console.warn('fetch error:', e) });
 };
 
 // ---

@@ -38,3 +38,8 @@ jsipfs config --json API.HTTPHeaders.Access-Control-Allow-Headers '["Authorizati
 jsipfs config --json API.HTTPHeaders.Access-Control-Expose-Headers '["Location"]'
 jsipfs config --json API.HTTPHeaders.Access-Control-Allow-Credentials '["true"]'
 ```
+
+For TypeError: Network request failed
+
+Install https://ngrok.com/
+`ngrok http 5002` and use this ngrok https address in ipfsClient({})

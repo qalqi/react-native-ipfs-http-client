@@ -14,11 +14,22 @@ import EthIdentityProvider from 'orbit-db-identity-provider/src/ethereum-identit
 const type = EthIdentityProvider.type
 Identities.addIdentityProvider(EthIdentityProvider);
 
+/* If using without remote debuger, use ngrok port forwarding
+
+const ipfs = ipfsClient({
+  host: "90dbfdc6.ngrok.io",
+  port: "443",
+  protocal: 'https'
+});
+
+*/
+
+
+/* Only with remote debugger */
 
 const ipfs = ipfsClient({
   host: "127.0.0.1",
   port: "5002",
-
 });
 
 class App extends Component {
