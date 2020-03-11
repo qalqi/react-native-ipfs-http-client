@@ -1,5 +1,5 @@
 var URL2 = require('url-parse');
-const fetch2 = require('node-fetch');
+const whatwg_fetch = require('whatwg-fetch').fetch;
 import { Headers, Response, Request } from 'node-fetch'
 
 const URLSearchParams = require('@ungap/url-search-params')
@@ -10,15 +10,17 @@ global.URLSearchParams = URLSearchParams;
 
 import Promise from 'bluebird';
 var request = require('browser-request')
+const fetch_readablestream = require("fetch-readablestream");
 
-fetch2.promise = Promise
+
+whatwg_fetch.promise = Promise
 
 
 global.Request = Request;
 global.Response = Response;
 global.Headers = Headers
-//global.fetch = fetch2;
-console.log(fetch2, 'fetch2')
+//global.fetch = whatwg_fetch;
+console.log(whatwg_fetch, 'whatwg_fetch')
 
 // To see all the requests in the chrome Dev tools in the network tab.
 XMLHttpRequest = GLOBAL.originalXMLHttpRequest ?
@@ -27,11 +29,12 @@ XMLHttpRequest = GLOBAL.originalXMLHttpRequest ?
 
 // fetch logger
 global._fetch = fetch;
-/* global.fetch = function (uri, options, ...args) {
+global.fetch = (uri, options, ...args) => {
 
+  options.headers = new Headers(options.headers)
 
   console.log('fetching..', uri, options, ...args);
-  return fetch2(uri, options, ...args).then((response) => {
+  return whatwg_fetch(uri, options, ...args).then((response) => {
     console.log('Fetch 2', { request: { uri, options, ...args }, response });
     console.log('uri', uri);
 
@@ -39,7 +42,7 @@ global._fetch = fetch;
 
     return response;
   }).catch(console.log);
-}; */
+};
 
 // ---
 // TOGGLE THIS CODE BLOCK ON AND OFF TO USE RN-FETCH-BLOB OR NOT
@@ -85,7 +88,7 @@ console.log(global.Headers, fetch.Headers, fetch); */
 // https://github.com/github/fetch/issues/746#issuecomment-573891642
 
 // https://github.com/jonnyreeves/fetch-readablestream/issues/12
-// global.fetch = require("fetch-readablestream");
+//global.fetch = require("fetch-readablestream");
 
 // Going with import until we figure out exactly what would need to be
 // done manually with a require style and directly editing the globals
